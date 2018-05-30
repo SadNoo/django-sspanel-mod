@@ -93,11 +93,18 @@ def simple_cached_view(key=None, ttl=None):
 def authorized(view_func):
     @wraps(view_func)
     def wrapper(request, *args, **kwargs):
-        token = request.GET.get('token', '')
+        if request.method == 'GET':
+            token = request.GET.get('token', '')
+        else:
+            # TODO 临时解决方案
+            token = request.GET.get('token', '')
+            if not token:
+                token = request.POST.get('token', '')
         if token == settings.TOKEN:
             return view_func(request, *args, **kwargs)
         else:
-            return JsonResponse({'ret': -1})
+            return JsonResponse({'ret': -1,
+                                 'msg': 'auth error'})
 
     return wrapper
 

@@ -308,19 +308,6 @@ def traffic_query(request):
 
 
 @login_required
-def get_qrcode(request, content):
-    '''返回字符串编码后的二维码图片'''
-    # 加入节点信息等级判断
-    ss_img = qrcode.make(content)
-    buf = BytesIO()
-    ss_img.save(buf)
-    image_stream = buf.getvalue()
-    # 构造图片reponse
-    response = HttpResponse(image_stream, content_type="image/png")
-    return response
-
-
-@login_required
 def change_theme(request):
     '''
     更换用户主题
@@ -337,28 +324,23 @@ def change_theme(request):
     return JsonResponse(registerinfo)
 
 
+@authorized
 @csrf_exempt
+@require_http_methods(['POST'])
 def get_invitecode(request):
     '''
     获取邀请码接口
-    只开放给管理员账号（user_id=1）
-    只接受post请求
+    只开放给管理员账号
     返回一个没用过的邀请码
     需要验证token
-    token为 base64(username+port)
     '''
-    if request.method == 'POST':
-        token = request.POST.get('token', '')
-        if token == settings.TOKEN:
-            code = InviteCode.objects.filter(code_id=1, isused=False)
-            if len(code) > 1:
-                return JsonResponse({'msg': code[0].code})
-            else:
-                return JsonResponse({'msg': '邀请码用光啦'})
-        else:
-            return JsonResponse({'msg': 'auth error'})
+    admin_user = User.objects.filter(is_superuser=True).first()
+    code = InviteCode.objects.filter(
+        code_id=admin_user.pk, isused=False).first()
+    if code:
+        return JsonResponse({'msg': code.code})
     else:
-        return JsonResponse({'msg': 'method error'})
+        return JsonResponse({'msg': '邀请码用光啦'})
 
 
 @authorized
