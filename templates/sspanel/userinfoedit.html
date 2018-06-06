@@ -4,11 +4,8 @@
         <div class="hero-body">
             <div class="container">
                 <h1 class="title">
-                    用户资料改写处：
+                    鏈接方式修改
                 </h1>
-                <h2 class="subtitle">
-                    自定义连接信息....
-                </h2>
             </div>
         </div>
     </section>
@@ -17,23 +14,23 @@
     <div class="tile is-ancestor">
          <div class="tile is-6 is-vertical is-parent">
             <div class="tile box is-child">
-                <span class="tag is-danger is-large">修改连接密码:</span>
+                <span class="tag is-danger is-large">修改鏈接密鑰</span>
                 <hr />
-                <p class="subtitle">当前密码:<code>{{ ss_user.password }}</code></p>
+                <p class="subtitle">當前密鑰:<code>{{ ss_user.password }}</code></p>
                 <form class="form" action="{% url 'ssserver:changesspass' %}" method="post">
                     {% csrf_token %}
                     <input type="text" name="password" class="input is-narrow is-danger" required="" id="password">
                     <hr/>
                     <div class="is-grouped">
-                        <button type="submit" class="button is-danger is-outlined ">确认修改</button>
+                        <button type="submit" class="button is-danger is-outlined ">確認修改</button>
                     </div>
                 </form>
             </div>
         
             <div class="tile box is-child">
-                    <span class="tag is-warning is-large">自定义的加密:</span>
+                    <span class="tag is-warning is-large">修改加密方式</span>
                     <hr />
-                    <p class="subtitle">当前加密方式:<code>{{ ss_user.method }}</code></p>
+                    <p class="subtitle">當前加密方式:<code>{{ ss_user.method }}</code></p>
                     <form class="form" action="{% url 'ssserver:changessmethod' %}" method="post">
                         {% csrf_token %}
                         <div class="field is-horizontal">
@@ -56,7 +53,7 @@
                         </div>
                         <hr>
                         <div class="is-grouped">
-                            <button type="submit" class="button is-danger is-outlined ">提交</button>
+                            <button type="submit" class="button is-danger is-outlined ">確認修改</button>
                         </div>
                     </form>
                 </div>
@@ -65,9 +62,9 @@
 
         <div class="tile is-6 is-vertical is-parent">
             <div class="tile box is-child">
-                <span class="tag is-success is-large">自定义协议:</span>
+                <span class="tag is-success is-large">修改鏈接協議</span>
                 <hr />
-                <p class="subtitle">当前协议:<code>{{ ss_user.protocol }}</code></p>
+                <p class="subtitle">當前協議:<code>{{ ss_user.protocol }}</code></p>
                 <form class="form" action="{% url 'ssserver:changessprotocol' %}" method="post">
                     {% csrf_token %}
                     <div class="field is-horizontal">
@@ -90,15 +87,15 @@
                     </div>
                     <hr>
                     <div class="is-grouped">
-                        <button type="submit" class="button is-danger is-outlined ">提交</button>
+                        <button type="submit" class="button is-danger is-outlined ">確認修改</button>
                     </div>
                 </form>
             </div>
             
             <div class="tile box is-child">
-                <span class="tag is-success is-large">自定义混淆:</span>
+                <span class="tag is-success is-large">修改流量混淆</span>
                 <hr />
-                <p class="subtitle">当前混淆:<code>{{ ss_user.obfs }}</code></p>
+                <p class="subtitle">當前混淆:<code>{{ ss_user.obfs }}</code></p>
                 <form class="form" action="{% url 'ssserver:changessobfs' %}" method="post">
                     {% csrf_token %}
                     <div class="field is-horizontal">
@@ -121,7 +118,7 @@
                     </div>
                     <hr>
                     <div class="is-grouped">
-                        <button type="submit" class="button is-danger is-outlined ">提交</button>
+                        <button type="submit" class="button is-danger is-outlined ">確認修改</button>
                     </div>
                 </form>
             </div>

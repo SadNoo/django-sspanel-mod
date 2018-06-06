@@ -4,37 +4,44 @@
         <div class="hero-body">
             <div class="container">
                 <h1 class="title">
-                    捐赠榜：
+                    賬戶充值
                 </h1>
-                <h2 class="subtitle">
-                    有你们的支持,才让这里继续下去 谢谢！
-                </h2>
             </div>
         </div>
     </section>
 </div>
 <div class="column is-12">
+  	<nav class="level box ">
+        <div class="level-item has-text-centered">
+            <div>
+                <p class="heading">用戶名:</p>
+                <p class="title">{{ user }}</p>
+            </div>
+        </div>
+        <div class="level-item has-text-centered">
+            <div>
+                <p class="heading">賬戶餘額：</p>
+                <p class="title">
+                    <code>{{ user.balance }}元</code>
+                </p>
+            </div>
+        </div>
+    </nav>
     <div class="tile is-ancestor">
-        <div class="tile is-5 is-vertical is-parent">
+        <div class="tile is-12 is-vertical is-parent">
             {% if alipay == True %}
             <div class="tile box is-child">
-                <p class="subtitle">充值捐赠系统正在内测中...
-                    <br>请在下方输入
-                    <strong>充值/捐赠金额</strong>
+                <p class="subtitle">請輸入充值金額
                 </p>
-                <p>点击提交会弹出
-                    <strong>支付宝二维码</strong>
-                    <br>扫描二维码确认付款之后
-                    <br>账户里会增加对应的金额</p>
-                <strong>付完款之后要按红色的确认按钮！</strong>
+                <p>点击GO会弹出<strong>支付寶付款二維碼</strong>，請按指示操作
                 <hr>
                 <div class="content">
                     <div class="field has-addons">
                         <div class="control">
-                            <input id="id-input-payinput" class="input" type="number" step="1" placeholder="最低不得小于1元: " required>
+                            <input id="id-input-payinput" class="input" type="number" step="1" placeholder="金額必須為整數且大與1" required>
                         </div>
                         <div class="control">
-                            <button class="button is-outlined is-info" id="id-button-payrequest">提交</button>
+                            <button class="button is-outlined is-info" id="id-button-payrequest">GO</button>
                         </div>
                     </div>
                     <div id="id-qrcode-box" class="is-hidden">
@@ -43,51 +50,16 @@
                             <img id="id-img-qrcode" src="">
                         </figure>
                         <p>
-                            <strong>付费完成之后请点击确认！</strong>
+                            <strong>付款完成后請點擊確認按鈕</strong>
                         </p>
                         <div class="control">
-                            <button id="id-button-query" class="button is-outlined is-danger" href="#">确认</button>
+                            <button id="id-button-query" class="button is-outlined is-danger" href="#">確認</button>
                         </div>
                     </div>
                 </div>
             </div>
             {% else %}
-            <div class="tile box is-child">
-                <p class="subtitle">本站通过充值码进行充值:</p>
-                <hr>
-                <p class="subtitle">扫描站长支付宝PY获得充值码：</p>
-                <figure class="image">
-                    <img src="{% static '/img/alipay.png'%}">
-                </figure>
-            </div>
             {% endif %}
-        </div>
-        <div class="tile is-7 is-vertical is-parent">
-            <div class="tile box is-child">
-                <div class="content">
-                    <p class="subtitle">在充值界面充值也等同于捐赠，记录会自动同步</p>
-                    <table class="table is-striped">
-                        <thead>
-                            <tr>
-                                <th>捐赠人:</th>
-                                <th>捐赠金额:</th>
-                                <th>捐赠时间:</th>
-                            </tr>
-                        </thead>
-                        {% for donate in donatelist %}
-                        <tr>
-                            <td>{{ donate.user|mix_name:donate.user }}</td>
-                            <td>{{ donate.money }} 元</td>
-                            <td>{{ donate.time|date:"m月d日" }}：</td>
-                        </tr>
-                        {% empty %}
-                        <p class="subtitle">
-                            居然还没有人捐赠 要喝西北风了
-                        </p>
-                        {% endfor %}
-                    </table>
-                </div>
-            </div>
         </div>
     </div>
 </div>
@@ -117,7 +89,7 @@
                 requestButton.attr("disabled", "disabled")
             })
         } else {
-            swal('错误！', '金额必须为整数且最少为一元', 'error')
+            swal('錯誤！', '金額必須為整數且大與1', 'error')
         }
     }
     requestButton.click(payrequest)
@@ -125,7 +97,7 @@
     queryButton = $("#id-button-query")
     var payquery = function () {
         codeBox.empty()
-        codeBox.append('后台飞速查询结果中 请稍候....')
+        codeBox.append('獲取支付結果中，請稍後....')
         url = "{% url 'api:pay_query' %}"
         $.getJSON(url, function (results) {
             info = results.info
