@@ -4,11 +4,8 @@
         <div class="hero-body">
             <div class="container">
                 <h1 class="title">
-                    用户中心：
+                    網路資源管理面板
                 </h1>
-                <h2 class="subtitle">
-                    这里有你的出生证明....
-                </h2>
             </div>
         </div>
     </section>
@@ -21,17 +18,16 @@
                 <p class="title">
                     <span class="icon is-large">
                         <i class="fa fa-home"></i>
-                    </span> 欢迎小主: {{ user.username }}</p>
-                <p class="subtitle is-5">这里的功能还比较少...</p>
+                    </span>{{ user.username }}，歡迎回來。</p>
                 <button class="button is-rounded">
-                    <a href="{% url 'sspanel:logout' %}">注销登录</a>
+                    <a href="{% url 'sspanel:logout' %}">注銷</a>
                 </button>
                 <button class="button is-rounded">
-                    <a href="{% url 'password_change' %}">修改密码</a>
+                    <a href="{% url 'password_change' %}">修改賬戶密碼</a>
                 </button>
                 <button class="button is-rounded">
                     <a>
-                        <span id="id-change-port">重置端口</span>
+                        <span id="id-change-port">重置鏈接接口</span>
                     </a>
                 </button>
                 <hr>
@@ -39,7 +35,7 @@
                     <div class="control has-icons-left">
                         <div class="select is-rounded is-fullwidth">
                             <select name="selects">
-                                <option value="" disabled="" selected="">更换页面主题</option>
+                                <option value="" disabled="" selected="">更換面板風格</option>
                                 <option disabled="">───</option>
                                 {% for theme in  themes %}
                                 <option value="{{ theme.0 }}">{{ theme.1 }}</option>
@@ -51,28 +47,15 @@
                         </div>
                     </div>
                     <p class="control">
-                        <button class="button is-outlined is-info is-rounded" id="id-button-theme">提交</button>
+                        <button class="button is-outlined is-info is-rounded" id="id-button-theme">更新</button>
                     </p>
                 </div>
                 <hr>
-                <div id="id-checkin-box">
-                    {% if user.ss_user.get_check_in %}
-                    <p class="subtitle is-5 is-spaced">今天已经签到过了ಠ౪ಠ</p>
-                    {% else %}
-                    <p class="subtitle is-5 is-spaced"> 今天还没有签到，点一下可以获得{{ min_traffic }}~{{ max_traffic }}流量</p>
-                    <br>
-                    <button class="button">
-                        <a>
-                            <span id="id-checkin">签到</span>
-                        </a>
-                    </button>
-                    {% endif %}
-                </div>
             </div>
             <div class="tile box is-child">
                 <article class="message">
                     <div class="message-header">
-                        <p>最新公告</p>
+                        <p>最新平臺公告</p>
                     </div>
                     <div class="message-body">
                         {% if anno %} {{ anno.body | safe }} {% else %}
@@ -88,29 +71,29 @@
             <div class="tile box is-child">
                 <article class="message is-success">
                     <div class="message-header">
-                        <p>连接信息</p>
+                        <p>接入鏈接資訊</p>
                     </div>
                     <div class="message-body">
-                        <li> 端口：
+                        <li> 接入端口：
                             <code><span id="port">{{ user.ss_user.port }}</span></code>
                         </li>
-                        <li> 密码：
+                        <li> 鏈接密鑰：
                             <code>{{ user.ss_user.password }}</code>
                         </li>
-                        <li> 加密：
+                        <li> 加密方式：
                             <code>{{ user.ss_user.method }}</code>
                         </li>
-                        <li> 协议：
+                        <li> 鏈接協議：
                             <code>{{ user.ss_user.protocol }}</code>
                         </li>
-                        <li> 混淆：
+                        <li> 流量混淆：
                             <code>{{ user.ss_user.obfs }}</code>
                         </li>
                         <br>
                         <div class="buttons">
-                            <a class="button is-link is-rounded" href="{{ sub_code }}">一键导入</a>
-                            <a class="button is-link is-rounded" href="{% url 'ssserver:node_config' %}" download>配置下载</a>
-                            <span class="button is-link modal-button is-rounded" data-target="modal-sub">订阅</span>
+                            <a class="button is-link is-rounded" href="{{ sub_code }}">獲取導入鏈接</a>
+                            <a class="button is-link is-rounded" href="{% url 'ssserver:node_config' %}" download>配置文件下載</a>
+                            <span class="button is-link modal-button is-rounded" data-target="modal-sub">接入點訂閲</span>
                         </div>
                     </div>
                 </article>
@@ -118,12 +101,12 @@
                     <div class="modal-background"></div>
                     <div class="modal-card">
                         <header class="modal-card-head">
-                            <p class="modal-card-title">SSR订阅地址：</p>
+                            <p class="modal-card-title">SSR訂閲鏈接：</p>
                             <button class="delete"></button>
                         </header>
                         <section class="modal-card-body">
-                            <p class="subtitle">订阅链接</p>
-                            <strong>点击按钮复制链接至客户端的订阅处</strong>
+                            <p class="subtitle">訂閲鏈接</p>
+                            <strong>點擊複製訂閲鏈接</strong>
                             <div class="field is-grouped">
                                 <p class="control is-expanded">
                                     <input class="input" id="id-sub-link" value="{{ sub_link }}">
@@ -140,13 +123,21 @@
                 </div>
                 <article class="message is-warning">
                     <div class="message-header">
-                        <p>流量信息</p>
+                        <p>數據傳輸量</p>
                     </div>
 
                     <div class="message-body">
+                      	<div class="columns">
+                            <div class="column is-4">
+                                <li>使用比率:<code>{{ user.ss_user.get_used_percentage }}%</code> </li>
+                            </div>
+                            <div class="column">
+                                <progress class="progress is-danger" value="{{  user.ss_user.get_used_percentage }}" max="100"></progress>
+                            </div>
+                        </div>
                         <div class="columns">
                             <div class="column is-4">
-                                <li>总量:
+                                <li>總計:
                                     <code>{{ user.ss_user.get_transfer }}</code>
                                 </li>
                             </div>
@@ -156,22 +147,12 @@
                         </div>
                         <div class="columns">
                             <div class="column is-4">
-                                <li>剩余:
-                                    <code>{{ user.ss_user.get_unused_traffic }} </code>
+                                <li>剩餘:
+                                    <code>{{ user.ss_user.get_unused_traffic }}</code>
                                 </li>
                             </div>
                             <div class="column">
                                 <progress class="progress is-info" value="{{  remain_traffic }}" max="100"></progress>
-                            </div>
-                        </div>
-
-                        <div class="columns">
-                            <div class="column is-4">
-                                <li>使用:
-                                    <code>{{ user.ss_user.get_used_percentage }}%</code> </li>
-                            </div>
-                            <div class="column">
-                                <progress class="progress is-danger" value="{{  user.ss_user.get_used_percentage }}" max="100"></progress>
                             </div>
                         </div>
                     </div>
@@ -179,31 +160,31 @@
 
                 <article class="message is-info">
                     <div class="message-header">
-                        <p>个人信息</p>
+                        <p>賬戶資訊</p>
                     </div>
                     <div class="message-body">
-                        <li> 余额：
+                        <li> 賬戶餘額：
                             <code>{{ user.balance }} 元</code>
                         </li>
-                        <li> 邮箱：
+                        <li> 電子郵箱：
                             <code>{{ user.email }} </code>
                         </li>
-                        <li> 等级：
+                        <li> 接入點權限等級：
                             <code>{{ user.level }} 级 </code>
                         </li>
                         {% if user.ss_user.enable == True %}
-                        <li> 状态：
-                            <code>正常使用</code>
+                        <li> 賬戶狀態：
+                            <code>正常</code>
                         </li>
                         {% else %}
-                        <li> 状态：
-                            <code>失效</code>
+                        <li> 賬戶狀態：
+                            <code>停用</code>
                         </li>
                         {% endif %}
-                        <li> 等级到期时间：
+                        <li> 當前使用權限到期日：
                             <code>{{ user.get_expire_time }} </code>
                         </li>
-                        <li>上次使用时间:
+                        <li>最後接入點鏈接時間:
                             <code>{{ user.ss_user.get_last_use_time|date:"m月d日G点" }}</code>
                         </li>
 
@@ -259,7 +240,7 @@
                 swal(info.title, info.subtitle, info.status)
             })
         } else {
-            swal('错误！', '请选择你要更换的主题', 'error')
+            swal('錯誤！', '您尚未選擇主題', 'error')
         }
     }
 

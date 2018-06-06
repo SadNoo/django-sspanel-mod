@@ -4,11 +4,8 @@
         <div class="hero-body">
             <div class="container">
                 <h1 class="title">
-                    节点列表：
+                    接入點
                 </h1>
-                <h2 class="subtitle">
-                    来呀伤害呀!
-                </h2>
             </div>
         </div>
     </section>
@@ -20,20 +17,21 @@
         <div class="node-cell" data-id="{{ list.node_id }}">
             <div class="card">
                 <div class="card-header">
-                    {% if list.online == True %}
+                    
                     <p class="card-header-title">
-                        <span class="tag is-{{ list.node_color}}">{{ list.node_type }}</span>&nbsp&nbsp
-                        <span class="tag is-success">在线</span>&nbsp&nbsp{{ list.name }}</p>
-                    {% else %}
-                    <p class="card-header-title">
-                        <span class="tag is-{{ list.node_color }}">{{ list.node_type }}</span>&nbsp&nbsp
-                        <span class="tag is-danger">掉线</span>&nbsp&nbsp {{ list.name }}</p>
-                    {% endif %}
-                    <p class="card-header-icon">地区：
-                        <span class="icon">
+                        <span class="tag is-info">{{ list.node_type }}</span>&nbsp&nbsp
+                        <span class="tag is-success">
+                        {% if list.online == True %}  
+                        在綫
+                        {% else %}
+                  		離綫
+                        {% endif %}
+                        </span>&nbsp&nbsp
+                  		<span class="icon">
                             <i class="flag-icon flag-icon-{{ list.country }}"></i>
-                        </span>
-                    </p>
+                        </span>&nbsp&nbsp
+                      	{{ list.name }}
+                  		</p>
                     <a id="id-icon-{{ list.node_id }}" class="card-header-icon" onclick="$(`#id-card-body-${ {{ list.node_id }} }`).toggle('swing')">
                         <span class="icon">
                             <i class="fa fa-ellipsis-v"></i>

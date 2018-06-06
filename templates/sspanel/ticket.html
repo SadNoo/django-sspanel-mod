@@ -5,11 +5,8 @@
         <div class="hero-body">
             <div class="container">
                 <h1 class="title">
-                    工单系统：
+                    工單系統
                 </h1>
-                <h2 class="subtitle">
-                    有什么问题尽管提！什么时候解决就不知道了！
-                </h2>
             </div>
         </div>
     </section>
@@ -22,11 +19,11 @@
             <table class="table is-striped">
                 <thead>
                     <tr>
-                        <th>操作:</th>
+                        <th></th>
                         <th>ID:</th>
-                        <th>时间:</th>
-                        <th>标题:</th>
-                        <th>状态</th>
+                        <th>提交時間:</th>
+                        <th>標題</th>
+                        <th>狀態</th>
                     </tr>
                 </thead>
 
@@ -37,15 +34,12 @@
                     <td>#{{ record.pk }}</td>
                     <td>{{ record.time }}</td>
                     <td>{{ record.title }}</td>
-                    <td>{{ record.get_status_display }}</td>
+                    <td>{{ record.status }}</td>
                 </tr>
                 {% empty %}
-                <h2 class="subtitle">
-                    暂时还没提过工单呢
-                </h2>
                 {% endfor %}
             </table>
-            <p align="right"><a class="button is-danger is-outlined" href="{% url 'sspanel:ticket_create' %}">发起工单</a></p>
+            <p align="right"><a class="button is-danger is-outlined" href="{% url 'sspanel:ticket_create' %}">提交工單</a></p>
         </div>
     </div>
 </div>
